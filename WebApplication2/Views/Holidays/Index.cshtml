@@ -1,0 +1,152 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/jquery")
+
+
+<script>
+
+    $(function () {
+        $("#myTable2").DataTable();
+
+        $("#checkAll").click(function () {
+
+            $("input[name='selectedOnes']").prop("checked", this.checked);
+        });
+            $("input[name='selectedOnes']").click(function () {
+                if ($("input[name='selectedOnes']").lenght == $("input[name='selectedOnes']:checked").lenght) {
+                    $("#checkAll").prop("checked", false);
+                }
+                else {
+                    $("#checkAll").prop("checked",true);
+                }
+            });
+
+            $(document).ready(function () {
+
+                var $submit = $("#delete").hide(),
+                    $cbs = $("input[type='checkbox']").click(function () {
+                        $submit.toggle($cbs.is(":checked"));
+                    });
+
+            });
+
+            $("#delete").click(function () {
+
+                var selectedOnes = [];
+                $("input[type='checkbox']").each(function () {
+
+                    if ($(this).prop("checked") ) {
+                        selectedOnes.push($(this).data("id"));
+                    }
+                });
+
+                if (selectedOnes.length > 0 && window.confirm('you are about to permanently delete holiday(s). Are you sure you want to continue?')) {
+                    $("input[type='checkbox']").each(function () {
+                        if ($(this).prop("checked")) {
+                            $(this).parents('tr').remove();
+                        }
+                    });
+
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Holidays/DeleteHoliday",
+                        data: {
+                            deleteHolidays: selectedOnes.join(','),
+                        },
+                        error: function (XMLHttpRequest, textStatus, errorThrown) {
+                            alert("Please select a holiday to delete");
+                        },
+                        complete: function (jqXHR, status) {
+                            $('#delete').hide();
+                            $("#myTable2").DataTable();
+
+                        }
+                    });
+                    alert("Succesfully deleted " + selectedOnes.length + " holidays");
+
+                }
+
+            });
+
+    });
+</script>
+
+
+
+
+
+
+
+<style>
+    th,td{
+        border: 1px solid #000000;
+    }
+
+    table{width:100%;}
+   
+</style>
+
+<div>
+   <h3>Holidays</h3>
+    
+        <input type="button" value="Add Holiday" onclick="@("window.location.href='"+Url.Action("AddNew","Holidays")+ "'");"
+    ); 
+               style="background-color: #4CAF50;
+    border: none;
+    color: white;
+        margin: 10px 1030px;
+            text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    padding: 5px 10px;
+    cursor: pointer;" />
+    <button type="button" id="delete" class="btn btn-danger"style="margin-bottom:20px;
+border-color:darkgrey; background-color:darkgrey; color:white; ">Delete</button>
+    </br>
+</div>
+<div>
+<table id="myTable2"; class="table table-striped table-bordered"; style="border-collapse: collapse;
+    width: 100%;  text-align: center; font-family: Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;">
+    <thead>
+
+        <tr style="
+            text-align center;
+            background-color #ddd;
+            color black;">
+            <td><input type="checkbox" id="checkAll" />    &nbsp;   </td>
+            <th onclick="sortTable(0)" style="text-align:center;">Name</th>
+            <th onclick="sortTable(1)" style="text-align:center;">Number Of Days Off</th>
+            <th style="text-align:center;">Starts At</th>
+            <th style="text-align:center;">Ends At</th>
+            <th style="text-align:center;">Occurs Annually</th>
+        </tr>
+    </thead>
+    <tbody>
+        @*@model List<Holiday>*@
+        @foreach (var holiday in ViewBag.Holidays)
+        {
+
+            <tr style="hover{background-color: #ddd;}">
+                <td><input type="checkbox" data-id="@holiday.Id" name="selectedOnes" />    &nbsp;   </td>
+                <td>@holiday.Name</td>
+                <td>@holiday.NumberOfDaysOff</td>
+                <td>@holiday.StartsAt.ToString().Substring(0, 9)</td>
+                <td>@holiday.EndsAt.ToString().Substring(0, 9)</td>
+                <td> @holiday.OccursAnually</td>
+
+            </tr>
+
+
+        }
+    </tbody>
+</table>
+    </div>
