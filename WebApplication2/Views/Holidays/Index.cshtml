@@ -89,7 +89,15 @@
     }
 
     table{width:100%;}
-   
+    a#myTable2_next {
+        word-spacing: 10px !important;
+        padding-left: 5px;
+    }
+
+    a#myTable2_previous {
+        word-spacing: 10px !important;
+        padding-right: 5px;
+    }
 </style>
 
 <div>
@@ -137,7 +145,7 @@ border-color:darkgrey; background-color:darkgrey; color:white; ">Delete</button>
 
             <tr style="hover{background-color: #ddd;}">
                 <td><input type="checkbox" data-id="@holiday.Id" name="selectedOnes" />    &nbsp;   </td>
-                <td>@holiday.Name</td>
+                <td><a href="/Holidays/UpdateHoliday?holidayid=@holiday.Id">@holiday.Name</a></td>
                 <td>@holiday.NumberOfDaysOff</td>
                 <td>@holiday.StartsAt.ToString().Substring(0, 9)</td>
                 <td>@holiday.EndsAt.ToString().Substring(0, 9)</td>

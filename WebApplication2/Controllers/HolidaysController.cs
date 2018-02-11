@@ -41,6 +41,7 @@ namespace WebApplication2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SaveHoliday()
         {
+            string holidayId = Request["holidayID"];
             string holidayName = Request["Name"];
             string holidayStart = Request["StartsAt"];
             string holidayEnd = Request["EndsAt"];
@@ -53,11 +54,21 @@ namespace WebApplication2.Controllers
                 holidayAnual = true;
             }
             string holidayDays = Request["DaysOff"];
+            if (!String.IsNullOrEmpty(holidayId))
+            {
+                Debug.WriteLine("Update is on");
 
-            DbBroker insertNew = new DbBroker();
-            Debug.WriteLine(holidayAnual);
-            int rowsAffected = insertNew.Insert(holidayName, DateTime.Parse(holidayStart), DateTime.Parse(holidayEnd), holidayAnual);
-           
+                DbBroker broker = new DbBroker();
+                int updated = broker.Update(holidayName, DateTime.Parse(holidayStart), DateTime.Parse(holidayEnd), holidayAnual, Int32.Parse(holidayId));
+
+
+            }
+            else
+            {
+                DbBroker insertNew = new DbBroker();
+                Debug.WriteLine(holidayAnual);
+                int rowsAffected = insertNew.Insert(holidayName, DateTime.Parse(holidayStart), DateTime.Parse(holidayEnd), holidayAnual);
+            }
            DbBroker showSelected = new DbBroker();
            List<Holiday> allSelected = showSelected.SelectAll();
             ViewBag.Holidays = allSelected;
@@ -77,6 +88,20 @@ namespace WebApplication2.Controllers
             }
 
             return "OK";
+
+        }
+
+        public ActionResult UpdateHoliday() {
+
+            string holidayId = Request["holidayid"];
+
+            DbBroker broker = new DbBroker();
+            Holiday selectedOne = broker.SelectOne(Int32.Parse(holidayId));
+            Debug.WriteLine(selectedOne.Name);
+            ViewBag.Holiday = selectedOne;
+
+            return View("UpdateHoliday");
+
         }
 
         //[HttpPost]

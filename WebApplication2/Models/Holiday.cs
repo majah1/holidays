@@ -26,7 +26,7 @@ namespace WebApplication2.Models
             this.startsAt = startsAt;
             this.endsAt = endsAt;
             this.occursAnually = occursAnually;
-            this.numberOfDaysOff = (endsAt - startsAt).Days;
+            this.numberOfDaysOff = (endsAt - startsAt).Days + 1;
             this.Id = id;
             }
 
