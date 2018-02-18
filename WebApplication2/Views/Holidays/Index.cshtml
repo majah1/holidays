@@ -13,6 +13,7 @@
     $(function () {
         $("#myTable2").DataTable();
 
+
         $("#checkAll").click(function () {
 
             $("input[name='selectedOnes']").prop("checked", this.checked);
@@ -98,6 +99,11 @@
         word-spacing: 10px !important;
         padding-right: 5px;
     }
+
+    .fa-check {
+  color: green;
+}
+
 </style>
 
 <div>
@@ -149,7 +155,18 @@ border-color:darkgrey; background-color:darkgrey; color:white; ">Delete</button>
                 <td>@holiday.NumberOfDaysOff</td>
                 <td>@holiday.StartsAt.ToString().Substring(0, 9)</td>
                 <td>@holiday.EndsAt.ToString().Substring(0, 9)</td>
-                <td> @holiday.OccursAnually</td>
+                <td>
+                 
+                    @if (holiday.OccursAnually)
+                    {
+                        <i class="fa fa-check" />
+                    }
+                    @if (!holiday.OccursAnually)
+                    {
+                        <i class="" />
+                    }
+
+                </td>
 
             </tr>
 

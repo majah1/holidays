@@ -54,7 +54,7 @@
         <div class="form-group">
             <div class="col-md-1" style="padding-left: 216px;">
                 <div class="checkbox" style="display:inherit;">
-                    <input type="checkbox" name="OccursAnnually" value="@ViewBag.Holiday.OccursAnually" />
+                    <input type="checkbox" name="OccursAnnually" checked="@ViewBag.Holiday.OccursAnually" />
                     <label for="OccursAnnualy" style="width:147px; cursor:auto;" class="control-label col-md-2">Occurs Every Year</label>
                     @*@Html.EditorFor(model => model.OccursAnually)*@
                     @*@Html.LabelFor(model => model.OccursAnually, "This occurs every year", htmlAttributes: new { @class = "control-label col-md-2" })*@
@@ -65,7 +65,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.StartsAt, "Start Date", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.StartsAt, new { htmlAttributes = new { @class = "form-control" , @Value = ViewBag.Holiday.StartsAt} })
+                @Html.EditorFor(model => model.StartsAt, new { htmlAttributes = new { @class = "form-control" , @Value = ViewBag.Holiday.StartsAt.ToShortDateString()} })
                 @Html.ValidationMessageFor(model => model.StartsAt, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -73,7 +73,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.EndsAt, "End Date", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.EndsAt, new { htmlAttributes = new { @class = "form-control" , @Value = ViewBag.Holiday.EndsAt } })
+                @Html.EditorFor(model => model.EndsAt, new { htmlAttributes = new { @class = "form-control" , @Value = ViewBag.Holiday.EndsAt.ToShortDateString() } })
                 @Html.ValidationMessageFor(model => model.EndsAt, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -114,12 +114,16 @@
             $("#StartsAt").datepicker();
             $("#EndsAt").datepicker();
 
-         
+
             var today = new Date()
-            $('#StartsAt,#EndsAt').val(today.getMonth() + 1 + '/' + today.getDate() + '/' + today.getFullYear());
+          //  $('#StartsAt,#EndsAt').val(today.getMonth() + 1 + '/' + today.getDate() + '/' + today.getFullYear());
 
-            $('#NumberOfDaysOff').val(1);
-
+            var start = $("#StartsAt").val();
+            var startD = new Date(start);
+            var end = $("#EndsAt").val();
+            var endD = new Date(end);
+            var diff = parseInt((endD.getTime() - startD.getTime()) / (24 * 3600 * 1000));
+            $("#NumberOfDaysOff").val(++diff);
 
             $('#StartsAt, #EndsAt').on('changeDate', function (ev) {
                 if ($("#StartsAt").val() && $("#EndsAt").val()) {

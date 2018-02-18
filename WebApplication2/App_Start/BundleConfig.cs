@@ -25,13 +25,15 @@ namespace WebApplication2
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js",
-                      "~/Scripts/datePicker.js"));
+                      "~/Scripts/datePicker.js",
+                      "~/Scripts/fontawesome-all.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
                       "~/Content/datePicker.css",
-                      "~/Content/dataTables.css"));
+                      "~/Content/dataTables.css",
+                      "~/Content/fontAwesome.css"));
         }
     }
 }

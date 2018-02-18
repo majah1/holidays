@@ -239,6 +239,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\dataTables.css" />
     <Content Include="Content\datePicker.css" />
+    <Content Include="Content\fontAwesome.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -255,6 +256,7 @@
     </Content>
     <Content Include="Scripts\ai.0.22.9-build00167.js" />
     <Content Include="Scripts\dataTables.js" />
+    <Content Include="Scripts\fontawesome-all.js" />
     <Content Include="Scripts\jquery.tablesorter.min.js" />
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="Scripts\bootstrap.js" />
